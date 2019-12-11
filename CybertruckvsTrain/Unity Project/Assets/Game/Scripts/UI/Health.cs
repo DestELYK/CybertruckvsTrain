@@ -36,7 +36,7 @@ public class Health : MonoBehaviour
     {
         get
         {
-            return currentHealth / startingHealth;
+            return (float)currentHealth / (float)startingHealth;
         }
     }
 }

@@ -9,11 +9,23 @@ using UnityEngine;
 
 public class TurretShoot : MonoBehaviour
 {
-    public float fireRate = 0.2f;   // The fire rate of the gun
+    public float fireRate = 0.1f;   // The fire rate of the gun
     public int damage = 10;         // How much damage each shot does
     public Transform firePoint;     // Where the bullets shoot from
 
     private float timer;            // Used to set the fire rate of the gun
+
+    #region Kyle Dunn
+
+    public float animationRate = 0.1f;
+
+    [SerializeField]
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private Animator turretAnimator;
+
+    #endregion
 
     // Update is called once per frame
     void Update()
@@ -26,7 +38,14 @@ public class TurretShoot : MonoBehaviour
             {
                 timer = 0f;
                 FireTurret();
+                audioSource.Play(); // Kyle Dunn
+                turretAnimator.SetBool("Firing", true);
             }
+        }
+
+        if (timer >= animationRate)
+        {
+            turretAnimator.SetBool("Firing", false);
         }
     }
 

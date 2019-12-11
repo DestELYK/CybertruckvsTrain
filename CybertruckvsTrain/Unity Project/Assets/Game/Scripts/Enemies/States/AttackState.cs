@@ -53,7 +53,9 @@ public class AttackState : FSMState
 
         if (IsInCurrentRange(npc, player.position, EnemyVehicleController.SHOOT_DIST))
         {
-            shoot.ShootTarget(player.position);
+            Vector3 target = (player.position + player.GetComponent<Rigidbody>().velocity) + Vector3.down * 0.5f;
+
+            shoot.ShootTarget(target);
         }
         else
         {

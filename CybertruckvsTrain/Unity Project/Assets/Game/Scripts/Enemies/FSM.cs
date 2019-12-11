@@ -5,6 +5,7 @@ using UnityEngine;
 public class FSM : MonoBehaviour
 {
     //Player Transform
+    [SerializeField]
     protected Transform playerTransform;
 
     //Next destination position of the NPC Tank
@@ -12,10 +13,6 @@ public class FSM : MonoBehaviour
 
     //List of points for patrolling
     protected GameObject[] pointList;
-
-    //Bullet shooting rate
-    protected float shootRate;
-    protected float elapsedTime;
 
     //Tank Turret
     public Transform turret { get; set; }
@@ -34,11 +31,13 @@ public class FSM : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        FSMUpdate();
+        if (!PauseMenu.gamePaused)
+            FSMUpdate();
     }
 
     void FixedUpdate()
     {
-        FSMFixedUpdate();
+        if (!PauseMenu.gamePaused)
+            FSMFixedUpdate();
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyShoot : MonoBehaviour
 {
-    private const int SHOOT_INTERVAL = 5;
+    private const int SHOOT_INTERVAL = 3;
 
     [SerializeField]
     private GameObject missilePrefab;
@@ -65,10 +65,9 @@ public class EnemyShoot : MonoBehaviour
     {
         if (shooting)
         {
-            Quaternion rotation = Quaternion.LookRotation(target - transform.position);
+            Vector3 direction = target - pivot.position;
 
-            rotation.z = 0;
-            rotation.x = 0;
+            Quaternion rotation = Quaternion.LookRotation(direction);
 
             pivot.rotation = rotation;
         }
@@ -82,5 +81,6 @@ public class EnemyShoot : MonoBehaviour
     {
         MissileTarget missile = Instantiate<GameObject>(missilePrefab, spawn.position, pivot.rotation).GetComponent<MissileTarget>();
         missile.Target = target;
+        missile.VehicleSpeed = GetComponent<Rigidbody>().velocity.magnitude;
     }
 }

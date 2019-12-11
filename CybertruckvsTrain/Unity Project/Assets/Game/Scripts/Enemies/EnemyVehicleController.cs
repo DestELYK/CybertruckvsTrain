@@ -12,9 +12,7 @@ public class EnemyVehicleController : AdvancedFSM
 {
     public static int SLOT_DIST = 4;
     public static int ATTACK_DIST = 50;
-    public static int SHOOT_DIST = 30;
-
-    private bool debugDraw;
+    public static int SHOOT_DIST = 40;
 
     public Transform GetPlayerTransform()
     {
@@ -24,8 +22,6 @@ public class EnemyVehicleController : AdvancedFSM
     // Initialize the FSM for the NPC tank.
     protected override void Initialize()
     {
-        debugDraw = true;
-
         // Find the Player and init appropriate data.
         GameObject objPlayer = GameObject.FindGameObjectWithTag("Player");
         playerTransform = objPlayer.transform;
@@ -55,6 +51,7 @@ public class EnemyVehicleController : AdvancedFSM
         attack.AddTransition(Transition.NoHealth, FSMStateID.Dead);
 
         DeadState dead = new DeadState();
+        dead.AddTransition(Transition.Enable, FSMStateID.Patrolling);
         #endregion
 
         // Add the states to the FSM

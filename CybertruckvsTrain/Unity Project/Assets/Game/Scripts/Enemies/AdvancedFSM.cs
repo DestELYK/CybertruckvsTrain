@@ -13,6 +13,9 @@ using System.Collections.Generic;
 public enum Transition
 {
     None = 0,
+    HighHP,
+    MedHP,
+    LowHP,
     Enable,
     SawPlayer,
     LostPlayer,
@@ -22,6 +25,9 @@ public enum Transition
 public enum FSMStateID
 {
     None = 0,
+    Bullet,
+    Missile,
+    Barrage,
     Patrolling,
     Attacking,
     Dead

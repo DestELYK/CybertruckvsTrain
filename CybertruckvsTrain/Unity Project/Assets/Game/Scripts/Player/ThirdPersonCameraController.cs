@@ -18,6 +18,7 @@ public class ThirdPersonCameraController : MonoBehaviour
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        mouseY = -90;
     }
 
     private void LateUpdate()
@@ -33,14 +34,13 @@ public class ThirdPersonCameraController : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
 
             mouseX += Input.GetAxis("Mouse X") * rotationSpeed;
+            //mouseX = Mathf.Clamp(mouseX, -100, 100);
             mouseY -= Input.GetAxis("Mouse Y") * rotationSpeed;
-            //mouseY = Mathf.Clamp(mouseY, -35, 60);
-
-            //transform.LookAt(target);
+            mouseY = Mathf.Clamp(mouseY, -150, -79);
 
             Quaternion rotation = Quaternion.Euler(mouseY, mouseX, 0);
 
-            turret.rotation = rotation;
+            turret.localRotation = rotation;
         }
         else
         {

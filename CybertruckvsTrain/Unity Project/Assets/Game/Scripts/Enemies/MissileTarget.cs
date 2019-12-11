@@ -8,19 +8,28 @@ using UnityEngine;
 
 public class MissileTarget : MonoBehaviour
 {
-    private const int MAX_TIME_ALIVE = 3;
+    private const int MAX_TIME_ALIVE = 1;
 
     [SerializeField]
-    private int speed;
+    private int speed = 20;
 
     [SerializeField]
-    private int turnSpeed;
+    private int turnSpeed = 2;
+
+    [SerializeField]
+    private int damage = 10;
+
+    private float vehicleSpeed;
 
     private float timeAlive;
 
+    private Quaternion initialRotation;
+
     private Vector3 target;
 
-    public Vector3 Target { set { target = value; } }
+    public Vector3 Target { set { target = value; initialRotation = transform.rotation; } }
+
+    public float VehicleSpeed { set { vehicleSpeed = value; } }
 
     private void Update()
     {
@@ -30,19 +39,28 @@ public class MissileTarget : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Quaternion rotation = Quaternion.LookRotation(target - transform.position);
-        rotation.y = transform.rotation.y;
-        rotation.z = 0;
+        if (timeAlive > MAX_TIME_ALIVE)
+        {
+            Quaternion rotation = Quaternion.Slerp(initialRotation, Quaternion.Euler(90, initialRotation.y, 0), turnSpeed * Time.deltaTime);
 
-        Quaternion fallRotation = Quaternion.Euler(90, 0, 0);
-        fallRotation.y = transform.rotation.y;
-        fallRotation.z = 0;
+            transform.rotation = rotation;
+        }
 
-        rotation = Quaternion.Slerp(rotation, fallRotation, timeAlive / MAX_TIME_ALIVE);
+        transform.position += transform.forward * (speed + vehicleSpeed) * Time.deltaTime;
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, turnSpeed * Time.deltaTime);
+        //Quaternion rotation = Quaternion.LookRotation(target - transform.position);
+        //rotation.y = transform.rotation.y;
+        //rotation.z = 0;
 
-        transform.position += transform.forward * speed * Time.deltaTime;
+        //Quaternion fallRotation = Quaternion.Euler(90, 0, 0);
+        //fallRotation.y = transform.rotation.y;
+        //fallRotation.z = 0;
+
+        //rotation = Quaternion.Slerp(rotation, fallRotation, timeAlive / MAX_TIME_ALIVE);
+
+        //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, turnSpeed * Time.deltaTime);
+
+        //transform.position += transform.forward * speed * Time.deltaTime;
 
         //Quaternion rotation = Quaternion.LookRotation(target - transform.position);
 
@@ -59,7 +77,12 @@ public class MissileTarget : MonoBehaviour
         // TODO Effects
         GetComponent<Renderer>().enabled = false;
         GetComponent<Collider>().enabled = false;
-        gameObject.SetActive(false);
-        Destroy(gameObject, 5.0f);
+        Destroy(gameObject, 2.0f);
+
+        if (collision.gameObject.tag == "Player")
+        {
+            Health health = collision.gameObject.GetComponent<Health>();
+            health.TakeDamage(damage);
+        }
     }
 }

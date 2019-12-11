@@ -6,11 +6,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class PauseMenu : MonoBehaviour
 {
     public static bool gamePaused = false;
     public GameObject pausePanel, gamePanel;
+
+    public AudioMixer audioMixer;
 
     private void Awake()
     {
@@ -39,6 +42,7 @@ public class PauseMenu : MonoBehaviour
         pausePanel.SetActive(false);
         Time.timeScale = 1f;
         gamePaused = false;
+        audioMixer.SetFloat("GameVolume", 0);
     }
 
     public void MainMenu()
@@ -53,5 +57,6 @@ public class PauseMenu : MonoBehaviour
         pausePanel.SetActive(true);
         Time.timeScale = 0f;
         gamePaused = true;
+        audioMixer.SetFloat("GameVolume", -80); 
     }
 }
