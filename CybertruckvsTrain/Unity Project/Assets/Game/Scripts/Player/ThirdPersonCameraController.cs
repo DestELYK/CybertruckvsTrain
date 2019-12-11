@@ -10,7 +10,7 @@ using UnityEngine;
 public class ThirdPersonCameraController : MonoBehaviour
 {
     public float rotationSpeed = 1;
-    public Transform target, player;
+    public Transform target, player, turret;
     float mouseX, mouseY;
 
     // Start is called before the first frame update
@@ -34,11 +34,13 @@ public class ThirdPersonCameraController : MonoBehaviour
 
             mouseX += Input.GetAxis("Mouse X") * rotationSpeed;
             mouseY -= Input.GetAxis("Mouse Y") * rotationSpeed;
-            mouseY = Mathf.Clamp(mouseY, -35, 60);
+            //mouseY = Mathf.Clamp(mouseY, -35, 60);
 
-            transform.LookAt(target);
+            //transform.LookAt(target);
 
-            target.rotation = Quaternion.Euler(mouseY, mouseX, 0);
+            Quaternion rotation = Quaternion.Euler(mouseY, mouseX, 0);
+
+            turret.rotation = rotation;
         }
         else
         {

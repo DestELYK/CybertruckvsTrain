@@ -48,7 +48,7 @@ public class VehicleMovement : MonoBehaviour
         foreach (WheelCollider wheel in steeringWheels)
         {
             wheel.steerAngle = Mathf.Lerp(wheel.steerAngle, steer, turnSpeed * Time.deltaTime);
-            wheel.motorTorque = Mathf.Lerp(wheel.motorTorque, thrust * currentSpeed * 10, turnSpeed * Time.deltaTime);
+            //wheel.motorTorque = Mathf.Lerp(wheel.motorTorque, thrust * currentSpeed * 5, acceleration * Time.deltaTime);
         }
     }
 

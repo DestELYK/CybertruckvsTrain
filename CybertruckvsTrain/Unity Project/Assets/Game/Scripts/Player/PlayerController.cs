@@ -36,4 +36,13 @@ public class PlayerController : MonoBehaviour
             movement.enabled = false;
         }
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.tag == "Train")
+        {
+            Rigidbody rigid = GetComponent<Rigidbody>();
+            rigid.AddExplosionForce(1000, collision.GetContact(0).point, 10);
+        }
+    }
 }
